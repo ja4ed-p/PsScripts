@@ -11,7 +11,7 @@ Connect-MgGraph -TenantId $TenantId -ClientId $ClientId -Scopes DeviceManagement
 #Get all ACC devices in Intune
 $allDevices = Get-MgDeviceManagementManagedDevice -All
 
-#Filter devices with no category assigned
+#Filter devices not assigned to category
 $unassignedDevices = $allDevices | Where-Object {$_.DeviceCategoryDisplayName -ne "[YOUR-CATEGORY-NAME]"}
 
 #Preview results if desired
@@ -51,4 +51,5 @@ foreach ($device in $unassignedDevices) {
 #Disconnect from MS Graph
 
 Disconnect-MgGraph
+
 
