@@ -1,4 +1,7 @@
-﻿#Define ID and variables for MS Graph connection
+#Script demonstrating how to assign a Microsoft Intune device to a device category
+#2025-10-17
+ 
+#Define Tenant ID and Client ID variables for MS Graph connection
 $tenantId="[YOUR-TENANT-ID]"
 $clientId="[YOUR-CLIENT-ID]"
 
@@ -46,4 +49,5 @@ foreach ($device in $unassignedDevices) {
 }
 
 #Disconnect from MS Graph
+
 Disconnect-MgGraph
