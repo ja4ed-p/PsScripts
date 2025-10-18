@@ -5,33 +5,34 @@
 $tenantId="[YOUR-TENANT-ID]"
 $clientId="[YOUR-CLIENT-ID]"
 
+#Define the device category Id and Name
+$deviceCategoryId = "[YOUR-CATEGORY-ID]"
+$deviceCategoryName = "[YOUR-CATEGORY-NAME]"
+
 #Connect to MS Graph
 Connect-MgGraph -TenantId $TenantId -ClientId $ClientId -Scopes DeviceManagement.ReadWrite.All
 
-#Get all ACC devices in Intune
+#Get all devices in Intune
 $allDevices = Get-MgDeviceManagementManagedDevice -All
 
 #Filter devices not assigned to category
-$unassignedDevices = $allDevices | Where-Object {$_.DeviceCategoryDisplayName -ne "[YOUR-CATEGORY-NAME]"}
+$unassignedDevices = $allDevices | Where-Object {$_.DeviceCategoryDisplayName -ne "$deviceCategoryName"}
 
 #Preview results if desired
 $unassignedDevices | Select-Object Id,DeviceName,OperatingSystem,DeviceCategoryDisplayName | Out-GridView
-
-#Define the ACC Devices category Id
-$deviceCategoryId = "[YOUR-CATEGORY-ID]"
 
 #Define headers for the Invoke-MgGraphRequest below
 $headers = @{
     "Content-Type" = "application/json"
 }
 
-foreach ($device in $unassignedDevices) {
-    $deviceId = $device.Id
+#Define the JSON body for the Invoke-MgGraphRequest
+$body = @{
+    '@odata.id' = "https://graph.microsoft.com/beta/deviceManagement/deviceCategories/$deviceCategoryId"
+} | ConvertTo-Json -Depth 3
 
-    #Construct the JSON body
-    $body = @{
-        '@odata.id' = "https://graph.microsoft.com/beta/deviceManagement/deviceCategories/$deviceCategoryId"
-    } | ConvertTo-Json -Depth 3
+foreach ($device in $unassignedDevices){
+    $deviceId = $device.Id
 
     #Send the PUT request to assign the category
     try{
@@ -49,7 +50,4 @@ foreach ($device in $unassignedDevices) {
 }
 
 #Disconnect from MS Graph
-
 Disconnect-MgGraph
-
-
