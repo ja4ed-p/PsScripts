@@ -18,10 +18,7 @@ $allDevices = Get-MgDeviceManagementManagedDevice -All
 #Filter devices not assigned to category
 $unassignedDevices = $allDevices | Where-Object {$_.DeviceCategoryDisplayName -ne "$deviceCategoryName"}
 
-#Preview results if desired
-$unassignedDevices | Select-Object Id,DeviceName,OperatingSystem,DeviceCategoryDisplayName | Out-GridView
-
-#Define headers for the Invoke-MgGraphRequest below
+#Define headers for the Invoke-MgGraphRequest
 $headers = @{
     "Content-Type" = "application/json"
 }
@@ -51,3 +48,4 @@ foreach ($device in $unassignedDevices){
 
 #Disconnect from MS Graph
 Disconnect-MgGraph
+
