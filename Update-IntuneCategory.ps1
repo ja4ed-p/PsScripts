@@ -6,7 +6,7 @@ $tenantId="[YOUR-TENANT-ID]"
 $clientId="[YOUR-CLIENT-ID]"
 
 #Connect to MS Graph
-Connect-MgGraph -TenantId $TenantId -ClientId $ClientId
+Connect-MgGraph -TenantId $TenantId -ClientId $ClientId -Scopes DeviceManagement.ReadWrite.All
 
 #Get all ACC devices in Intune
 $allDevices = Get-MgDeviceManagementManagedDevice -All
@@ -51,3 +51,4 @@ foreach ($device in $unassignedDevices) {
 #Disconnect from MS Graph
 
 Disconnect-MgGraph
+
