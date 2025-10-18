@@ -1,5 +1,0 @@
-Get-MgDeviceManagementManagedDevice -Filter "DeviceCategoryDisplayName ne '$CategoryName'"
-
-Get-MgDeviceManagementManagedDevice -Filter "NOT(contains(DeviceCategoryDisplayName, '$CategoryName'))"
-
-Get-MgDeviceManagementManagedDevice -Filter "NOT(startsWith(DeviceCategoryDisplayName, '$CategoryName'))"
